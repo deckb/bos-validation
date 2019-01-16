@@ -125,7 +125,7 @@ def check_account_json(account_json):
 
         
         if account_json['permissions'] != acct_info['permissions']:
-            log_queue.append('ERROR!!! {0} has mismatched active key expected {1} and got {2}'.format(name, acct_info['permission'], account_json['permission']))
+            log_queue.append('ERROR!!! {0} has mismatched active key expected {1} and got {2}'.format(name, acct_info['permissions'], account_json['permissions']))
             account_errors += 1
 
         # check code
