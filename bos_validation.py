@@ -65,7 +65,7 @@ def check_account(eos_account, owner_key, active_key, eos_amt, name, bos_total):
             calculated = calc_bos(float(eos_amt.split()[0]))
             total_bos += total
             # check if the numbers are super close or if they equal
-            if isclose(total, calculated) and total != calculated:
+            if isclose(total, calculated):
                 log_queue.append("ERROR!!!: {} has the wrong balance information {} != {}.\n".format(name, total, calculated))    
                 account_errors += 1
         except Exception as ex:
@@ -117,5 +117,5 @@ with open(args.snapshot) as fo:
         flush_output()
         cnt += len(proc_list)
         # TODO remove
-    log_queue.append('Total accounts: {0} worth {} BOS\n'.format(cnt, total_bos))
+    log_queue.append('Total accounts: {} worth {} BOS\n'.format(cnt, total_bos))
     flush_output()
