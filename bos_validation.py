@@ -2,6 +2,7 @@ from eospy import cleos
 import argparse
 import datetime as dt
 from threading import Thread
+import json
 
 try:
     # if python 3
@@ -94,6 +95,9 @@ def check_account_csv(eos_account, owner_key, active_key, eos_amt, name, bos_tot
     if account_errors == 0: 
         log_queue.append('SUCCESS!!! account {} appears valid with {} BOS, no contract set, and not privileged\n'.format(name, calculated))
     
+def compare_dicts(a,b):
+    return json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
+
 def check_account_json(account_json):
     global total_bos
     account_errors = 0
@@ -124,7 +128,7 @@ def check_account_json(account_json):
             account_errors += 1
 
         
-        if account_json['permissions'] != acct_info['permissions']:
+        if not compare_dicts(account_json['permissions'], acct_info['permissions']):
             log_queue.append('ERROR!!! {0} has mismatched active key expected {1} and got {2}\n'.format(name, acct_info['permissions'], account_json['permissions']))
             account_errors += 1
 
@@ -144,7 +148,6 @@ def check_account_json(account_json):
 # check json file
 #
 with open(args.snapshot_json) as fo:
-    import json
     num_thds = args.num_thds
     rows = fo.readlines()
     cnt = 0
