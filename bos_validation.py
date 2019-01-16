@@ -40,7 +40,7 @@ def flush_output() :
             pass
 
 def calc_bos(eos_amt):
-    eos_to_bos = eos_amt / 20.0
+    eos_to_bos = round(eos_amt / 20.0, 4)
     staked=0.2
     if(eos_to_bos < 0.5) :
         return 0.5 + staked
@@ -61,11 +61,11 @@ def check_account(eos_account, owner_key, active_key, eos_amt, name, bos_total):
             acct_info['total_resources']['cpu_weight'].split()[0]
             staked_cpu = float(acct_info['total_resources']['cpu_weight'].split()[0])
             staked_net = float(acct_info['total_resources']['net_weight'].split()[0])
-            total = liquid + staked_cpu + staked_net
+            total = round(liquid + staked_cpu + staked_net, 4)
             calculated = calc_bos(float(eos_amt.split()[0]))
             total_bos += total
             # check if the numbers are super close or if they equal
-            if isclose(total, calculated):
+            if not isclose(total, calculated):
                 log_queue.append("ERROR!!!: {} has the wrong balance information {} != {}.\n".format(name, total, calculated))    
                 account_errors += 1
         except Exception as ex:
