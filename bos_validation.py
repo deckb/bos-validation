@@ -125,12 +125,12 @@ def check_account_json(account_json):
 
         
         if account_json['permissions'] != acct_info['permissions']:
-            log_queue.append('ERROR!!! {0} has mismatched active key expected {1} and got {2}'.format(name, acct_info['permissions'], account_json['permissions']))
+            log_queue.append('ERROR!!! {0} has mismatched active key expected {1} and got {2}\n'.format(name, acct_info['permissions'], account_json['permissions']))
             account_errors += 1
 
         # check code
         if u'1970-01-01T00:00:00.000' != acct_info['last_code_update'] :
-            log_queue.append('ERROR!!! this {0}\'s code has been updated'.format(name))
+            log_queue.append('ERROR!!! this {0}\'s code has been updated\n'.format(name))
             account_errors += 1
         # check priv
         if acct_info['privileged'] :
